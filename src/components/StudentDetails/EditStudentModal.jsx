@@ -94,8 +94,8 @@ const EditStudentModal = ({ student, onUpdate, open, setOpen }) => {
 			if (updated) {
 				setSuccess(true);
 				setTimeout(() => {
-					onUpdate(updated);
-					setOpen(false);
+				onUpdate(updated);
+				setOpen(false);
 				}, 1000);
 			}
 		} catch (err) {
@@ -210,10 +210,10 @@ const EditStudentModal = ({ student, onUpdate, open, setOpen }) => {
 										{required && <span className="text-red-500 ml-1">*</span>}
 									</label>
 									{type === "select" ? (
-										<select
+								<select
 											name={name}
 											value={form[name]}
-											onChange={handleChange}
+									onChange={handleChange}
 											className={`w-full border px-2.5 py-1.5 rounded text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
 												errors[name] ? "border-red-500" : "border-gray-300"
 											}`}
@@ -223,48 +223,48 @@ const EditStudentModal = ({ student, onUpdate, open, setOpen }) => {
 													{label}
 												</option>
 											))}
-										</select>
-									) : (
-										<input
-											name={name}
-											value={form[name]}
-											onChange={handleChange}
+								</select>
+							) : (
+								<input
+									name={name}
+									value={form[name]}
+									onChange={handleChange}
 											type={type}
-											placeholder={placeholder}
+									placeholder={placeholder}
 											className={`w-full border px-2.5 py-1.5 rounded text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
 												errors[name] ? "border-red-500" : "border-gray-300"
 											}`}
-										/>
-									)}
-									{errors[name] && (
+								/>
+							)}
+							{errors[name] && (
 										<p className="text-red-500 text-xs flex items-center gap-1">
 											<AlertCircle className="size-3" />
-											{errors[name]}
-										</p>
-									)}
-								</div>
-							))}
+									{errors[name]}
+								</p>
+							)}
+						</div>
+					))}
 						</div>
 
 						<div className="flex flex-col sm:flex-row justify-end gap-2 pt-3">
-							<DialogClose asChild>
-								<button
-									type="button"
-									className="w-full sm:w-auto px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
-									disabled={loading}
-								>
-									Cancel
-								</button>
-							</DialogClose>
+						<DialogClose asChild>
 							<button
-								type="submit"
-								className="w-full sm:w-auto px-3 py-1.5 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
+								type="button"
+									className="w-full sm:w-auto px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
 								disabled={loading}
 							>
-								{loading ? "Saving..." : "Save Changes"}
+								Cancel
 							</button>
-						</div>
-					</form>
+						</DialogClose>
+						<button
+							type="submit"
+								className="w-full sm:w-auto px-3 py-1.5 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
+							disabled={loading}
+						>
+								{loading ? "Saving..." : "Save Changes"}
+						</button>
+					</div>
+				</form>
 				)}
 			</DialogContent>
 		</Dialog>

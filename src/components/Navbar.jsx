@@ -55,8 +55,8 @@ const Navbar = () => {
 					>
 						{user && (
 							<NavLink to="/dashboard" icon={<Home size={18} />} isActive={isActive("/dashboard")}>
-								Dashboard
-							</NavLink>
+							Dashboard
+						</NavLink>
 						)}
 
 						{user ? (

@@ -96,10 +96,10 @@ const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 								<button
 									type="button"
 									className="w-full sm:w-auto px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
-									disabled={loading}
-								>
-									Cancel
-								</button>
+						disabled={loading}
+					>
+						Cancel
+					</button>
 							</DialogClose>
 							<button
 								type="button"
@@ -110,7 +110,7 @@ const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 								{loading ? "Deleting..." : "Delete Student"}
 							</button>
 						</div>
-					</div>
+				</div>
 				)}
 			</DialogContent>
 		</Dialog>

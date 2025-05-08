@@ -1,0 +1,64 @@
+{
+  "students": [
+    {
+      "id": "1",
+      "userId": "user123",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "age": 20,
+      "course": "Computer Science",
+      "year": 2,
+      "phone": "1234567890",
+      "address": "123 University Ave, College Town",
+      "enrollmentDate": "2023-09-01",
+      "status": "Enrolled",
+      "createdAt": "2024-03-20T00:00:00.000Z",
+      "updatedAt": "2024-03-20T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "userId": "user123",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "age": 21,
+      "course": "Computer Science",
+      "year": 3,
+      "phone": "9876543210",
+      "address": "456 College Blvd, University City",
+      "enrollmentDate": "2022-09-01",
+      "status": "Enrolled",
+      "createdAt": "2024-03-20T00:00:00.000Z",
+      "updatedAt": "2024-03-20T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "userId": "user456",
+      "name": "Mike Johnson",
+      "email": "mike.johnson@example.com",
+      "age": 19,
+      "course": "Electrical Engineering",
+      "year": 1,
+      "phone": "5551234567",
+      "address": "789 Campus Drive, College Park",
+      "enrollmentDate": "2024-01-15",
+      "status": "Pending",
+      "createdAt": "2024-03-20T00:00:00.000Z",
+      "updatedAt": "2024-03-20T00:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "userId": "user456",
+      "name": "Sarah Williams",
+      "email": "sarah.williams@example.com",
+      "age": 22,
+      "course": "Electrical Engineering",
+      "year": 4,
+      "phone": "5559876543",
+      "address": "321 University Circle, College Town",
+      "enrollmentDate": "2021-09-01",
+      "status": "Graduated",
+      "createdAt": "2024-03-20T00:00:00.000Z",
+      "updatedAt": "2024-03-20T00:00:00.000Z"
+    }
+  ]
+} 

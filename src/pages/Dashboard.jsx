@@ -33,13 +33,13 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</div>
-
+			
 			<div className="bg-white rounded-lg shadow-sm border border-gray-200">
 				<div className="px-6 py-4 border-b border-gray-200">
 					<h2 className="text-lg font-semibold text-gray-900">Student Management</h2>
 				</div>
 				<div className="p-6">
-					<StudentsList />
+			<StudentsList />
 				</div>
 			</div>
 		</div>

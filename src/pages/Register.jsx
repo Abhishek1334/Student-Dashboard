@@ -11,10 +11,10 @@ const Register = () => {
 	const [loading, setLoading] = useState(false);
 	const { register } = useAuth();
 	const navigate = useNavigate();
-
+	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		
+
 		if (password !== confirmPassword) {
 			return setError('Passwords do not match');
 		}
@@ -37,7 +37,7 @@ const Register = () => {
 				<div className="text-center">
 					<h2 className="text-2xl font-extrabold text-gray-900 animate-slide-down">
 						Create your account
-					</h2>
+				</h2>
 					<p className="mt-1 text-sm text-gray-600 animate-slide-down [animation-delay:150ms]">
 						Already have an account?{' '}
 						<Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
@@ -56,60 +56,60 @@ const Register = () => {
 							<label htmlFor="email" className="sr-only">
 								Email address
 							</label>
-							<input
+					<input
 								id="email"
 								name="email"
-								type="email"
+						type="email"
 								autoComplete="email"
 								required
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 								className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-all duration-200"
 								placeholder="Email address"
-							/>
+					/>
 						</div>
 						<div className="animate-slide-in [animation-delay:300ms]">
 							<label htmlFor="password" className="sr-only">
 								Password
 							</label>
-							<input
+					<input
 								id="password"
 								name="password"
-								type="password"
+						type="password"
 								autoComplete="new-password"
 								required
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 								className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-all duration-200"
 								placeholder="Password"
-							/>
+					/>
 						</div>
 						<div className="animate-slide-in [animation-delay:400ms]">
 							<label htmlFor="confirm-password" className="sr-only">
 								Confirm Password
 							</label>
-							<input
+					<input
 								id="confirm-password"
 								name="confirm-password"
-								type="password"
+						type="password"
 								autoComplete="new-password"
 								required
-								value={confirmPassword}
-								onChange={(e) => setConfirmPassword(e.target.value)}
+						value={confirmPassword}
+						onChange={(e) => setConfirmPassword(e.target.value)}
 								className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-all duration-200"
 								placeholder="Confirm Password"
-							/>
+					/>
 						</div>
 					</div>
 
 					<div className="animate-slide-in [animation-delay:500ms]">
-						<button
-							type="submit"
-							disabled={loading}
+					<button
+						type="submit"
+						disabled={loading}
 							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-						>
+					>
 							{loading ? 'Creating account...' : 'Create account'}
-						</button>
+					</button>
 					</div>
 				</form>
 			</div>

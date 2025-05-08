@@ -11,8 +11,8 @@ const Layout = () => {
 			<Navbar />
 			<main className="flex-1 overflow-hidden">
 				<div className="h-full">
-					<Outlet />
-				</div>
+				<Outlet />
+			</div>
 			</main>
 			{!isAuthPage && (
 				<footer className="bg-white border-t border-gray-200">

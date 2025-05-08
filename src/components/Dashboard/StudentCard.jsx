@@ -20,18 +20,35 @@ const StudentCard = ({ student }) => {
 		}
 	};
 
+	const handleClick = (e) => {
+		// Only navigate if the click wasn't on a link
+		if (!e.target.closest('a')) {
+			navigate(`/student/${student.id}`);
+		}
+	};
+
 	return (
 		<div
 			className="bg-white rounded-lg border border-gray-200 hover:border-blue-200 hover:shadow-md transition-all duration-200 cursor-pointer group"
-			onClick={() => navigate(`/student/${student.id}`)}
+			onClick={handleClick}
 		>
 			<div className="p-6">
 				<div className="flex items-start justify-between">
 					<div className="space-y-1">
-						<h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+						<a
+							href={`/student/${student.id}`}
+							onClick={(e) => e.stopPropagation()}
+							className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors hover:underline"
+						>
 							{student.name}
-						</h3>
-						<p className="text-sm text-gray-500">{student.email}</p>
+						</a>
+						<a
+							href={`/student/${student.id}`}
+							onClick={(e) => e.stopPropagation()}
+							className="text-sm text-gray-500 hover:text-blue-600 hover:underline block"
+						>
+							{student.email}
+						</a>
 					</div>
 					<span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(student.status)}`}>
 						{student.status}

@@ -30,18 +30,18 @@ const StudentsList = () => {
 	const navigate = useNavigate();
 
 	const fetchStudentsList = async () => {
-		try {
+			try {
 			setLoading(true);
-			const data = await fetchStudents();
-			setStudents(data);
+				const data = await fetchStudents();
+				setStudents(data);
 			setError("");
 		} catch (err) {
 			setError("Failed to fetch students");
 			console.error(err);
-		} finally {
-			setLoading(false);
-		}
-	};
+			} finally {
+				setLoading(false);
+			}
+		};
 
 	useEffect(() => {
 		fetchStudentsList();
@@ -116,8 +116,8 @@ const StudentsList = () => {
 		return (
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{[...Array(6)].map((_, index) => (
-					<StudentCardSkeleton key={index} />
-				))}
+						<StudentCardSkeleton key={index} />
+					))}
 			</div>
 		);
 	}
@@ -252,7 +252,7 @@ const StudentsList = () => {
 											<p className="text-xs text-gray-500">Course</p>
 											<p className="text-sm text-gray-900 truncate max-w-[120px]">{student.course}</p>
 										</div>
-										<div>
+		<div>
 											<p className="text-xs text-gray-500">Year</p>
 											<p className="text-sm text-gray-900">{student.year}</p>
 										</div>
