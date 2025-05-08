@@ -17,17 +17,38 @@ export default {
 				],
 			},
 			colors: {
-				blue: {
-					50: "#EBF0FF",
-					100: "#D6E2FF",
-					200: "#ADC4FF",
-					300: "#85A7FF",
-					400: "#5C89FF",
-					500: "#3563E9",
-					600: "#2950C1",
-					700: "#1E3C9A",
-					800: "#142972",
-					900: "#0A1549",
+				border: "var(--border)",
+				input: "var(--input)",
+				ring: "var(--ring)",
+				background: "var(--background)",
+				foreground: "var(--foreground)",
+				primary: {
+					DEFAULT: "var(--primary)",
+					foreground: "var(--primary-foreground)",
+				},
+				secondary: {
+					DEFAULT: "var(--secondary)",
+					foreground: "var(--secondary-foreground)",
+				},
+				destructive: {
+					DEFAULT: "var(--destructive)",
+					foreground: "var(--destructive-foreground)",
+				},
+				muted: {
+					DEFAULT: "var(--muted)",
+					foreground: "var(--muted-foreground)",
+				},
+				accent: {
+					DEFAULT: "var(--accent)",
+					foreground: "var(--accent-foreground)",
+				},
+				popover: {
+					DEFAULT: "var(--popover)",
+					foreground: "var(--popover-foreground)",
+				},
+				card: {
+					DEFAULT: "var(--card)",
+					foreground: "var(--card-foreground)",
 				},
 			},
 			boxShadow: {
@@ -62,6 +83,11 @@ export default {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' },
 				},
+			},
+			borderRadius: {
+				lg: "var(--radius)",
+				md: "calc(var(--radius) - 2px)",
+				sm: "calc(var(--radius) - 4px)",
 			},
 		},
 	},
