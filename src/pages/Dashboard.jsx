@@ -4,7 +4,6 @@ import { Loader2, User } from "lucide-react";
 
 const Dashboard = () => {
 	const { user, loading } = useAuth();
-
 	if (loading) {
 		return (
 			<div className="h-full flex justify-center items-center">

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { AlertCircle, CheckCircle2, Download } from "lucide-react";
 import { addStudent } from "@/api/students";
+import { useAuth } from "@/hooks/useAuth";
 
 const BulkImportModal = ({ onImport, open, setOpen }) => {
   const [jsonInput, setJsonInput] = useState("");
@@ -17,6 +18,7 @@ const BulkImportModal = ({ onImport, open, setOpen }) => {
   const [success, setSuccess] = useState("");
   const [preview, setPreview] = useState([]);
   const [validationErrors, setValidationErrors] = useState([]);
+  const { user } = useAuth();
 
   const validateStudent = (student, index) => {
     const errors = [];
@@ -110,10 +112,11 @@ const BulkImportModal = ({ onImport, open, setOpen }) => {
     try {
       let successCount = 0;
       let failCount = 0;
+      const userId = user?.uid || user?.id;
 
       for (const student of preview) {
         try {
-          await addStudent(student);
+          await addStudent({ ...student, userId });
           successCount++;
         } catch (err) {
           console.error("Failed to add student:", err);

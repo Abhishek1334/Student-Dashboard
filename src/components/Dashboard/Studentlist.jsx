@@ -7,8 +7,9 @@ import AddStudentModal from "@/components/AddStudentModal";
 import { Users, Plus, Filter, ArrowUpDown, X, ChevronLeft, ChevronRight, Upload, RotateCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import BulkImportModal from "./BulkImportModal";
+import { useAuth } from "@/hooks/useAuth";
 
-const StudentsList = () => {
+const Studentlist = () => {
 	const [students, setStudents] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
@@ -28,24 +29,28 @@ const StudentsList = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const studentsPerPage = 6;
 	const navigate = useNavigate();
+	const { user } = useAuth();
 
 	const fetchStudentsList = async () => {
-			try {
+		try {
 			setLoading(true);
-				const data = await fetchStudents();
-				setStudents(data);
+			const allStudents = await fetchStudents();
+			if (!user?.uid && !user?.id) throw new Error("User not found");
+			const userId = user.uid || user.id;
+			const filtered = allStudents.filter(s => s.userId === userId);
+			setStudents(filtered);
 			setError("");
 		} catch (err) {
 			setError("Failed to fetch students");
 			console.error(err);
-			} finally {
-				setLoading(false);
-			}
-		};
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	useEffect(() => {
-		fetchStudentsList();
-	}, []);
+		if (user) fetchStudentsList();
+	}, [user]);
 
 	useEffect(() => {
 		setCurrentPage(1);
@@ -91,19 +96,18 @@ const StudentsList = () => {
 		})
 		.sort((a, b) => {
 			if (!sortConfig.key) return 0;
-
-			const aValue = a[sortConfig.key];
-			const bValue = b[sortConfig.key];
-
-			if (typeof aValue === "string") {
-				return sortConfig.direction === "asc"
-					? aValue.localeCompare(bValue)
-					: bValue.localeCompare(aValue);
+			let aValue = a[sortConfig.key];
+			let bValue = b[sortConfig.key];
+			if (sortConfig.key === 'enrollmentDate' || sortConfig.key === 'createdAt') {
+				aValue = new Date(aValue);
+				bValue = new Date(bValue);
+			} else if (sortConfig.key === 'age' || sortConfig.key === 'year') {
+				aValue = Number(aValue);
+				bValue = Number(bValue);
 			}
-
-			return sortConfig.direction === "asc"
-				? aValue - bValue
-				: bValue - aValue;
+			if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+			if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+			return 0;
 		});
 
 	const totalPages = Math.ceil(filteredAndSortedStudents.length / studentsPerPage);
@@ -137,185 +141,150 @@ const StudentsList = () => {
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-50">
-			<div className="max-w-[2000px] mx-auto px-2 sm:px-3 md:px-4">
-				{/* Header */}
-				<div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-3 md:mb-4">
-					<h1 className="text-lg md:text-xl font-semibold text-gray-900">Students</h1>
-					<div className="flex flex-col xs:flex-row gap-2">
-						<AddStudentModal onStudentAdded={fetchStudentsList} open={showAddModal} setOpen={setShowAddModal} />
+		<div className="min-h-screen h-screen flex flex-col bg-gray-50 overflow-hidden">
+			<div className="w-full max-w-4xl mx-auto flex-1 flex flex-col px-2 sm:px-3 md:px-4">
+				{/* Sticky Top Bar */}
+				<div className="sticky top-0 z-10 bg-gray-50 pt-3 pb-2 flex flex-col md:flex-row md:items-center md:justify-between gap-2 border-b border-gray-200">
+					<h1 className="text-base md:text-lg font-semibold text-gray-900">Students</h1>
+					<div className="flex gap-2">
+						<AddStudentModal 
+							onStudentAdded={(newStudent) => {
+								const userId = user?.uid || user?.id;
+								if (newStudent.userId === userId) {
+									setStudents((prev) => [newStudent, ...prev]);
+								}
+								setShowAddModal(false);
+							}} 
+							open={showAddModal} 
+							setOpen={setShowAddModal} 
+						/>
 						<button
 							onClick={() => setShowBulkImport(true)}
-							className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-sm text-white bg-green-600 rounded hover:bg-green-700 transition-colors"
+							className="flex items-center gap-1 px-3 py-1 text-xs md:text-sm text-white bg-green-600 rounded hover:bg-green-700"
 						>
-							<Upload className="size-3.5" />
+							<Upload className="size-4" />
 							Import
 						</button>
 					</div>
 				</div>
 
-				{/* Filters */}
-				<div className="bg-white rounded-lg shadow-sm p-2 sm:p-3 mb-3 md:mb-4">
-					<div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2">
-						<div>
-							<label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
-							<select
-								value={filters.status}
-								onChange={(e) => handleFilterChange("status", e.target.value)}
-								className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-							>
-								<option value="">All Status</option>
-								<option value="Enrolled">Enrolled</option>
-								<option value="Pending">Pending</option>
-								<option value="Graduated">Graduated</option>
-								<option value="Dropped">Dropped</option>
-							</select>
-						</div>
-						<div>
-							<label className="block text-xs font-medium text-gray-700 mb-1">Year</label>
-							<select
-								value={filters.year}
-								onChange={(e) => handleFilterChange("year", e.target.value)}
-								className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-							>
-								<option value="">All Years</option>
-								{[...new Set(students.map((s) => s.year))].sort().map((year) => (
-									<option key={year} value={year}>
-										{year}
-									</option>
-								))}
-							</select>
-						</div>
-						<div>
-							<label className="block text-xs font-medium text-gray-700 mb-1">Course</label>
-							<select
-								value={filters.course}
-								onChange={(e) => handleFilterChange("course", e.target.value)}
-								className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-							>
-								<option value="">All Courses</option>
-								{[...new Set(students.map((s) => s.course))].sort().map((course) => (
-									<option key={course} value={course}>
-										{course}
-									</option>
-								))}
-							</select>
-						</div>
-						<div>
-							<label className="block text-xs font-medium text-gray-700 mb-1">Search</label>
-							<input
-								type="text"
-								value={filters.search}
-								onChange={(e) => handleFilterChange("search", e.target.value)}
-								placeholder="Search by name or email..."
-								className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-							/>
-						</div>
-					</div>
-					<div className="flex justify-end mt-2">
-						<button
-							onClick={resetFilters}
-							className="text-xs text-gray-600 hover:text-gray-900 flex items-center gap-1"
+				{/* Filters & Sorting */}
+				<div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between py-2 border-b border-gray-100">
+					<div className="flex flex-col sm:flex-row gap-2 flex-1">
+						<select
+							name="status"
+							value={filters.status}
+							onChange={handleFilterChange}
+							className="border border-gray-200 rounded px-2 py-1 text-xs md:text-sm bg-white"
 						>
-							<RotateCcw className="size-3" />
-							Reset
-						</button>
+							<option value="">Status</option>
+							<option value="Enrolled">Enrolled</option>
+							<option value="Pending">Pending</option>
+							<option value="Graduated">Graduated</option>
+							<option value="Dropped">Dropped</option>
+						</select>
+						<select
+							name="year"
+							value={filters.year}
+							onChange={handleFilterChange}
+							className="border border-gray-200 rounded px-2 py-1 text-xs md:text-sm bg-white"
+						>
+							<option value="">Year</option>
+							{[...new Set(students.map((s) => s.year))]
+								.filter(Boolean)
+								.sort()
+								.map((year, idx) => (
+									<option key={year + '-' + idx} value={year}>{year}</option>
+								))}
+						</select>
+						<select
+							name="course"
+							value={filters.course}
+							onChange={handleFilterChange}
+							className="border border-gray-200 rounded px-2 py-1 text-xs md:text-sm bg-white"
+						>
+							<option value="">Course</option>
+							{[...new Set(students.map((s) => s.course))].sort().map((course, idx) => (
+								<option key={course + '-' + idx} value={course}>{course}</option>
+							))}
+						</select>
+						<input
+							name="search"
+							type="text"
+							value={filters.search}
+							onChange={handleFilterChange}
+							placeholder="Search..."
+							className="border border-gray-200 rounded px-2 py-1 text-xs md:text-sm bg-white flex-1"
+						/>
+					</div>
+					<div className="flex gap-2 items-center mt-2 sm:mt-0">
+						<div className="flex gap-2 items-center">
+							<select
+								value={sortConfig.key || ''}
+								onChange={e => handleSort(e.target.value)}
+								className="border border-gray-200 rounded px-2 py-1 text-xs md:text-sm bg-white"
+							>
+								<option value="">Sort</option>
+								<option value="enrollmentDate">Enrollment Date</option>
+								<option value="age">Age</option>
+								<option value="year">Year</option>
+								<option value="createdAt">Created At</option>
+							</select>
+							<button
+								type="button"
+								onClick={() => setSortConfig(prev => ({ ...prev, direction: prev.direction === 'asc' ? 'desc' : 'asc' }))}
+								className="px-2 py-1 text-xs border rounded bg-gray-100 hover:bg-gray-200"
+								title={`Sort ${sortConfig.direction === 'asc' ? 'Descending' : 'Ascending'}`}
+							>
+								{sortConfig.direction === 'asc' ? '↑' : '↓'}
+							</button>
+							<button
+								onClick={resetFilters}
+								className="text-xs text-gray-500 hover:text-gray-900 flex items-center gap-1 px-2"
+							>
+								<RotateCcw className="size-3" />
+							</button>
+						</div>
 					</div>
 				</div>
 
-				{/* Students Grid */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-					{currentStudents.map((student) => (
-						<div
-							key={student.id}
-							className="bg-white rounded-lg shadow-sm p-3 hover:shadow-md transition-shadow"
-						>
-							<div className="flex flex-col">
-								<div className="flex items-start gap-2.5">
-									<div className="size-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-										<span className="text-sm font-medium text-gray-600">
-											{student.name
-												.split(" ")
-												.map((n) => n[0])
-												.join("")}
-										</span>
-									</div>
-									<div className="min-w-0 flex-1">
-										<h3 className="text-sm font-medium text-gray-900 truncate">{student.name}</h3>
-										<p className="text-xs text-gray-500 truncate mt-0.5">{student.email}</p>
-									</div>
-								</div>
-
-								<div className="mt-2.5 flex items-center justify-between">
-									<div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-										<div>
-											<p className="text-xs text-gray-500">Course</p>
-											<p className="text-sm text-gray-900 truncate max-w-[120px]">{student.course}</p>
-										</div>
-		<div>
-											<p className="text-xs text-gray-500">Year</p>
-											<p className="text-sm text-gray-900">{student.year}</p>
-										</div>
-									</div>
-									<span
-										className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium shrink-0 ${
-											student.status === "Enrolled"
-												? "bg-green-100 text-green-800"
-												: student.status === "Pending"
-												? "bg-yellow-100 text-yellow-800"
-												: student.status === "Graduated"
-												? "bg-blue-100 text-blue-800"
-												: "bg-red-100 text-red-800"
-										}`}
-									>
-										{student.status}
-									</span>
-								</div>
-
-								<div className="mt-2.5 flex justify-end">
-									<button
-										onClick={() => navigate(`/student/${student.id}`)}
-										className="text-xs text-blue-600 hover:text-blue-800 font-medium"
-									>
-										View Details
-									</button>
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
-
-				{/* Pagination */}
-				<div className="mt-3 flex flex-col xs:flex-row items-center justify-between gap-1.5">
-					<div className="text-[10px] text-gray-500">
+				{/* Pagination Bar - now below filters/search/sort and above student cards */}
+				<div className="flex items-center justify-center gap-2 my-4">
+					<button
+						onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+						disabled={currentPage === 1}
+						className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+					>
+						Previous
+					</button>
+					<span className="text-gray-600 whitespace-nowrap">
+						{currentPage} of {totalPages}
+					</span>
+					<span className="text-gray-500 whitespace-nowrap">
 						{currentStudents.length} of {filteredAndSortedStudents.length} students
-					</div>
-					<div className="flex items-center gap-1.5">
-						<button
-							onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-							disabled={currentPage === 1}
-							className="px-1.5 py-0.5 text-[10px] border rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-						>
-							Previous
-						</button>
-						<span className="text-[10px] text-gray-600">
-							{currentPage} of {totalPages}
-						</span>
-						<button
-							onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-							disabled={currentPage === totalPages}
-							className="px-1.5 py-0.5 text-[10px] border rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-						>
-							Next
-						</button>
+					</span>
+					<button
+						onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+						disabled={currentPage === totalPages}
+						className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+					>
+						Next
+					</button>
+				</div>
+
+				{/* Students Grid - fit to available height, scrollable if needed */}
+				<div className="flex-1 py-2 overflow-y-auto pb-6" style={{ maxHeight: 'calc(100vh - 180px)' }}>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">
+						{currentStudents.map((student) => (
+							<StudentCard key={student.id} student={student} />
+						))}
 					</div>
 				</div>
 
-				{/* Modals */}
-				<BulkImportModal open={showBulkImport} setOpen={setShowBulkImport} onImport={fetchStudentsList} />
+				
 			</div>
 		</div>
 	);
 };
 
-export default StudentsList;
+export default Studentlist;

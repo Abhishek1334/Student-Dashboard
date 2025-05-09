@@ -2,6 +2,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
 export const fetchStudents = async () => {
 	try {
 		const res = await axios.get(`${API_URL}/students`);
@@ -41,7 +42,6 @@ export const deleteStudent = async(id) => {
 		throw err;
 	}
 }
-
 
 export const updateStudent = async(id, student) => {
 	try {

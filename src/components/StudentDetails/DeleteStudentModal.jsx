@@ -9,11 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Trash2, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { deleteStudent } from "@/api/students";
+import { useNavigate } from "react-router-dom";
 
 const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState(false);
+	const navigate = useNavigate();
 
 	const handleDelete = async () => {
 		setLoading(true);
@@ -21,11 +23,9 @@ const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 		try {
 			const deleted = await deleteStudent(student.id);
 			if (deleted) {
-				setSuccess(true);
-				setTimeout(() => {
-					onDelete(student.id);
-					setOpen(false);
-				}, 1000);
+				setOpen(false);
+				onDelete(student.id);
+				navigate("/dashboard");
 			}
 		} catch (err) {
 			console.error("Delete student failed", err);
@@ -96,10 +96,10 @@ const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 								<button
 									type="button"
 									className="w-full sm:w-auto px-3 py-1.5 text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
-						disabled={loading}
-					>
-						Cancel
-					</button>
+									disabled={loading}
+								>
+									Cancel
+								</button>
 							</DialogClose>
 							<button
 								type="button"
@@ -110,7 +110,7 @@ const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 								{loading ? "Deleting..." : "Delete Student"}
 							</button>
 						</div>
-				</div>
+					</div>
 				)}
 			</DialogContent>
 		</Dialog>

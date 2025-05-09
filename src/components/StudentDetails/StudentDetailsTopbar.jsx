@@ -8,6 +8,12 @@ const StudentDetailsTopbar = ({ student, setStudent }) => {
 	const [editing, setEditing] = useState(false);
 	const navigate = useNavigate()
 
+	const handleDelete = (deletedId) => {
+		// Optionally clear student state or show a message
+		setStudent(null);
+		navigate("/dashboard");
+	};
+
 	return (
 		<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3">
 			<button
@@ -18,7 +24,7 @@ const StudentDetailsTopbar = ({ student, setStudent }) => {
 			</button>
 			<div className="flex gap-3 max-md:justify-end">
 				<EditStudentModal student={student} onUpdate={setStudent} open={editing} setOpen={setEditing}/>
-				<DeleteStudentModal student={student} open={open} setOpen={setOpen} />
+				<DeleteStudentModal student={student} open={open} setOpen={setOpen} onDelete={handleDelete} />
 			</div>
 		</div>
 	);

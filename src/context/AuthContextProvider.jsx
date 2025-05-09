@@ -43,7 +43,7 @@ const AuthProvider = ({ children }) => {
 			console.error(err);
 		}
 	};
-
+	
 	return (
 		<AuthContext.Provider value={{ user, loading, login, register, logout }}>
 			{children}

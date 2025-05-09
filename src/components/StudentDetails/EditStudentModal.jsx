@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Dialog,
 	DialogTrigger,
@@ -26,6 +26,25 @@ const EditStudentModal = ({ student, onUpdate, open, setOpen }) => {
 	const [errors, setErrors] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
+
+	// Reset form and success state when modal opens or student changes
+	useEffect(() => {
+		if (open) {
+			setForm({
+				name: student.name,
+				age: student.age,
+				email: student.email,
+				course: student.course,
+				year: student.year,
+				phone: student.phone || "",
+				address: student.address || "",
+				enrollmentDate: student.enrollmentDate,
+				status: student.status,
+			});
+			setSuccess(false);
+			setErrors({});
+		}
+	}, [open, student]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -92,11 +111,8 @@ const EditStudentModal = ({ student, onUpdate, open, setOpen }) => {
 		try {
 			const updated = await updateStudent(student.id, { ...form });
 			if (updated) {
-				setSuccess(true);
-				setTimeout(() => {
 				onUpdate(updated);
 				setOpen(false);
-				}, 1000);
 			}
 		} catch (err) {
 			console.error("Update student failed", err);
@@ -173,7 +189,10 @@ const EditStudentModal = ({ student, onUpdate, open, setOpen }) => {
 	];
 
 	return (
-		<Dialog open={open} onOpenChange={setOpen}>
+		<Dialog open={open} onOpenChange={(val) => {
+			setOpen(val);
+			if (val) setSuccess(false);
+		}}>
 			<DialogTrigger asChild>
 				<div
 					className="text-blue-500 bg-gray-100 p-1.5 rounded hover:bg-gray-200 transition-colors"

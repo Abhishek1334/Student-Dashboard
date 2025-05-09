@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/dialog";
 import { Plus, AlertCircle, CheckCircle2 } from "lucide-react";
 import { addStudent } from "@/api/students";
+import { useAuth } from "@/hooks/useAuth";
 
-const AddStudentModal = ({ onAdd, open, setOpen }) => {
+const AddStudentModal = ({ onStudentAdded, open, setOpen }) => {
 	const [form, setForm] = useState({
 		name: "",
 		age: "",
@@ -26,6 +27,8 @@ const AddStudentModal = ({ onAdd, open, setOpen }) => {
 	const [errors, setErrors] = useState({});
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
+
+	const { user } = useAuth();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -90,25 +93,22 @@ const AddStudentModal = ({ onAdd, open, setOpen }) => {
 
 		setLoading(true);
 		try {
-			const added = await addStudent({ ...form });
+			const userId = user?.uid || user?.id;
+			const added = await addStudent({ ...form, userId });
 			if (added) {
-				setSuccess(true);
-				setTimeout(() => {
-					onAdd(added);
-					setOpen(false);
-					// Reset form after successful addition
-					setForm({
-						name: "",
-						age: "",
-						email: "",
-						course: "",
-						year: "",
-						phone: "",
-						address: "",
-						enrollmentDate: "",
-						status: "",
-					});
-				}, 1000);
+				onStudentAdded(added);
+				setOpen(false);
+				setForm({
+					name: "",
+					age: "",
+					email: "",
+					course: "",
+					year: "",
+					phone: "",
+					address: "",
+					enrollmentDate: "",
+					status: "",
+				});
 			}
 		} catch (err) {
 			console.error("Add student failed", err);
