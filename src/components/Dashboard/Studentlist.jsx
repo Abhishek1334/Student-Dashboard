@@ -146,7 +146,7 @@ const Studentlist = () => {
 				{/* Sticky Top Bar */}
 				<div className="sticky top-0 z-10 bg-gray-50 pt-3 pb-2 flex flex-col md:flex-row md:items-center md:justify-between gap-2 border-b border-gray-200">
 					<h1 className="text-base md:text-lg font-semibold text-gray-900">Students</h1>
-					<div className="flex gap-2">
+					<div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
 						<AddStudentModal 
 							onStudentAdded={(newStudent) => {
 								const userId = user?.uid || user?.id;
@@ -158,13 +158,11 @@ const Studentlist = () => {
 							open={showAddModal} 
 							setOpen={setShowAddModal} 
 						/>
-						<button
-							onClick={() => setShowBulkImport(true)}
-							className="flex items-center gap-1 px-3 py-1 text-xs md:text-sm text-white bg-green-600 rounded hover:bg-green-700"
-						>
-							<Upload className="size-4" />
-							Import
-						</button>
+						<BulkImportModal
+							onImport={fetchStudentsList}
+							open={showBulkImport}
+							setOpen={setShowBulkImport}
+						/>
 					</div>
 				</div>
 
@@ -273,7 +271,10 @@ const Studentlist = () => {
 				</div>
 
 				{/* Students Grid - fit to available height, scrollable if needed */}
-				<div className="flex-1 py-2 overflow-y-auto pb-6" style={{ maxHeight: 'calc(100vh - 180px)' }}>
+				<div
+					className="flex-1 py-2 overflow-y-auto pb-24 md:pb-6"
+					style={{ maxHeight: '60vh' }}
+				>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">
 						{currentStudents.map((student) => (
 							<StudentCard key={student.id} student={student} />
