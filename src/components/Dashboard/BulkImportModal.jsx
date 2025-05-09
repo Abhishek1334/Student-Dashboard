@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { AlertCircle, CheckCircle2, Download, Upload, Info } from "lucide-react";
 import { addStudent } from "@/api/students";
@@ -188,10 +189,14 @@ const BulkImportModal = ({ onImport, open, setOpen }) => {
       <DialogContent
         className="w-full max-w-4xl p-2 sm:p-4 md:p-6 rounded-lg shadow-lg"
         style={{ maxHeight: '90vh', overflow: 'hidden' }}
+        aria-describedby="bulk-import-description"
       >
         <DialogHeader>
           <DialogTitle className="text-lg sm:text-xl font-semibold">Bulk Import Students</DialogTitle>
         </DialogHeader>
+        <DialogDescription id="bulk-import-description" className="sr-only">
+          Paste a JSON array of student objects to import multiple students at once.
+        </DialogDescription>
 
         <div className="space-y-4 sm:space-y-6 mt-2 sm:mt-4 overflow-y-auto" style={{ maxHeight: '70vh' }}>
           {/* Instructions */}

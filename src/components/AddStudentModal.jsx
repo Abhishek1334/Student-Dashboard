@@ -6,6 +6,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogClose,
+	DialogDescription,
 } from "@/components/ui/dialog";
 import { Plus, AlertCircle, CheckCircle2 } from "lucide-react";
 import { addStudent } from "@/api/students";
@@ -196,10 +197,14 @@ const AddStudentModal = ({ onStudentAdded, open, setOpen }) => {
 				</button>
 			</DialogTrigger>
 
-			<DialogContent className="w-[95vw] max-w-md p-4 sm:p-6">
+			<DialogContent className="w-[95vw] max-w-md p-4 sm:p-6" aria-describedby="add-student-description">
 				<DialogHeader>
 					<DialogTitle className="text-xl font-semibold">Add New Student</DialogTitle>
 				</DialogHeader>
+				
+				<DialogDescription id="add-student-description" className="sr-only">
+					Fill out the form below to add a new student to the system.
+				</DialogDescription>
 
 				{success ? (
 					<div className="flex flex-col items-center justify-center py-8">

@@ -85,7 +85,7 @@ const Studentlist = () => {
 	const filteredAndSortedStudents = students
 		.filter((student) => {
 			const matchesStatus = !filters.status || student.status === filters.status;
-			const matchesYear = !filters.year || student.year === parseInt(filters.year);
+			const matchesYear = !filters.year || String(student.year) === filters.year;
 			const matchesCourse = !filters.course || student.course === filters.course;
 			const matchesSearch =
 				!filters.search ||
@@ -247,11 +247,11 @@ const Studentlist = () => {
 				</div>
 
 				{/* Pagination Bar - now below filters/search/sort and above student cards */}
-				<div className="flex items-center justify-center gap-2 my-4">
+				<div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 my-2 sm:my-4 text-xs sm:text-sm">
 					<button
 						onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
 						disabled={currentPage === 1}
-						className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+						className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
 					>
 						Previous
 					</button>
@@ -264,7 +264,7 @@ const Studentlist = () => {
 					<button
 						onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
 						disabled={currentPage === totalPages}
-						className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+						className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
 					>
 						Next
 					</button>
@@ -272,7 +272,7 @@ const Studentlist = () => {
 
 				{/* Students Grid - fit to available height, scrollable if needed */}
 				<div
-					className="flex-1 py-2 overflow-y-auto pb-24 md:pb-6"
+					className="flex-1 py-2 pb-32 md:pb-10 overflow-y-auto md:overflow-y-visible"
 					style={{ maxHeight: '60vh' }}
 				>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">

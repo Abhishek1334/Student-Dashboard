@@ -1,86 +1,95 @@
 # Student Dashboard
-## BabyCode Assessment
-A modern, responsive web application for managing student information, built with React and Vite.
 
-## Features
+A comprehensive React-based dashboard for managing student information with Firebase authentication and advanced filtering capabilities.
 
-- 📊 Interactive student management dashboard
-- 👥 Student profile management
-- 🔍 Advanced filtering and search capabilities
-- 📱 Fully responsive design
-- 📤 Bulk import functionality
-- 🔐 Secure authentication with Firebase
-- 🎨 Modern UI with Tailwind CSS
+## Live Demo
+Visit the deployed application at: [Student Dashboard](https://student-dashboard-hazel.vercel.app/)
 
-## Tech Stack
+## Video Demonstration
+Watch the application in action with network interactions: [Video Demo](https://drive.google.com/file/d/17JNCgD05wLR9QS3LFkWjp8BvF_NI-cKM/view?usp=sharing)
 
-- **Frontend Framework:** React 18
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS
-- **UI Components:** shadcn/ui
-- **Authentication:** Firebase
-- **Routing:** React Router v6
-- **HTTP Client:** Axios
-- **Icons:** Lucide React
+## Core Features
 
-## Prerequisites
+### Authentication
+- Firebase authentication integration
+- Protected routes requiring login
+- Secure user session management
 
-Before you begin, ensure you have the following installed:
-- Node.js (v16 or higher)
-- npm or yarn
+### Student Management
+- View list of students with pagination
+- Add new students with form validation
+- Bulk import students functionality
+- Detailed student cards with comprehensive information
+
+### Advanced Filtering & Sorting
+- Filter students by:
+  - Status (Enrolled, Pending, Graduated, Dropped)
+  - Year
+  - Course
+  - Search by name or email
+- Sort students by:
+  - Enrollment Date
+  - Age
+  - Year
+  - Created At
+- Toggle between ascending and descending order
+- Reset filters option
+
+### Responsive Design
+- Mobile-first approach
+- Responsive grid layout
+- Adaptive UI elements for different screen sizes
+- Optimized for both desktop and mobile devices
+- Smooth scrolling and pagination
+
+### UI/UX Features
+- Loading skeletons for better user experience
+- Error handling with retry options
+- Intuitive navigation
+- Clean and modern interface
+- Sticky header for easy access to controls
+- Pagination controls with student count
+
+## Technical Implementation
+- React with modern hooks
+- Firebase integration for authentication and data storage
+- Responsive design using Tailwind CSS
+- Mock API simulation for development
+- Form validation
+- Error boundary implementation
+- Optimized performance with pagination
+
+## Additional Features (Bonus)
+- Bulk import functionality
+- Advanced sorting capabilities
+- Comprehensive search functionality
+- Status-based filtering
+- Year-based filtering
+- Course-based filtering
+- Real-time updates
+- Loading states and error handling
+- Responsive design optimizations
 
 ## Getting Started
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/student-dashboard.git
-   cd student-dashboard
-   ```
-
+1. Clone the repository
 2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. Create a `.env` file in the root directory and add your Firebase configuration:
-   ```env
-   VITE_FIREBASE_API_KEY=your_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-   VITE_FIREBASE_APP_ID=your_app_id
-   ```
-
-4. Start the development server:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-5. Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-## Project Structure
-
+```bash
+npm install
 ```
-student-dashboard/
-├── src/
-│   ├── api/          # API integration
-│   ├── components/   # React components
-│   ├── hooks/        # Custom React hooks
-│   ├── pages/        # Page components
-│   ├── routes/       # Route configurations
-│   └── utils/        # Utility functions
-├── public/           # Static assets
-└── ...
+3. Set up Firebase configuration
+4. Run the development server:
+```bash
+npm run dev
 ```
 
-## Available Scripts
+## Technologies Used
+- React
+- Firebase
+- Tailwind CSS
+- React Router
+- Lucide Icons
+- Custom Hooks
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+## Deployment
+The application is deployed on Vercel for optimal performance and reliability.

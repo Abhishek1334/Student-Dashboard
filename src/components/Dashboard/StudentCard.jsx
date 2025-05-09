@@ -29,9 +29,13 @@ const StudentCard = ({ student }) => {
 
 	return (
 		<div
-			className="bg-white rounded-lg border border-gray-200 hover:border-blue-200 hover:shadow-md transition-all duration-200 cursor-pointer group p-3 sm:p-4 md:p-6 flex flex-col justify-between h-full"
+			className="relative bg-white rounded-lg border border-gray-200 hover:border-blue-200 hover:shadow-md transition-all duration-200 cursor-pointer group p-3 sm:p-4 md:p-6 flex flex-col justify-between h-full"
 			onClick={handleClick}
 		>
+			{/* Status badge fixed at top-right */}
+			<span className={`absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-medium z-10 ${getStatusColor(student.status)}`}>
+				{student.status}
+			</span>
 			<div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
 				<div className="space-y-0.5 md:space-y-1">
 					<a
@@ -49,9 +53,6 @@ const StudentCard = ({ student }) => {
 						{student.email}
 					</a>
 				</div>
-				<span className={`px-2 py-0.5 rounded-full text-xs font-medium mt-1 md:mt-0 ${getStatusColor(student.status)}`}>
-					{student.status}
-				</span>
 			</div>
 			<div className="mt-3 md:mt-4 space-y-2 md:space-y-3">
 				<div className="flex items-center text-xs md:text-sm text-gray-600">

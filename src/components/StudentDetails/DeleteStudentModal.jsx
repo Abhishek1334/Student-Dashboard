@@ -6,6 +6,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogClose,
+	DialogDescription,
 } from "@/components/ui/dialog";
 import { Trash2, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { deleteStudent } from "@/api/students";
@@ -46,10 +47,13 @@ const DeleteStudentModal = ({ student, onDelete, open, setOpen }) => {
 				</div>
 			</DialogTrigger>
 
-			<DialogContent className="w-[95vw] max-w-md p-4">
+			<DialogContent className="w-[95vw] max-w-md p-4" aria-describedby="delete-student-description">
 				<DialogHeader>
 					<DialogTitle className="text-lg font-medium">Delete Student</DialogTitle>
 				</DialogHeader>
+				<DialogDescription id="delete-student-description" className="sr-only">
+					Are you sure you want to delete this student? This action cannot be undone.
+				</DialogDescription>
 
 				{success ? (
 					<div className="flex flex-col items-center justify-center py-6">
